@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +15,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.19"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1"
   }
 }
