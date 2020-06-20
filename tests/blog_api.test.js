@@ -72,6 +72,32 @@ test('app returns correct amoung of blog posts in JSON format', async () => {
     expect(response.body).toHaveLength(initialBlogs.length)
 })
 
+test('unique identifier property of blog posts is named id', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+})
+
+test('making a HTTP POST request to /api/blogs successfully creates a new blog post', async () => {
+    const newBlog = {
+        title: "New blog post",
+        author: "Barack Obama",
+        url: "http://test.com",
+        likes: 5
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    
+    const response = await api.get('/api/blogs')
+    const titles = response.body.map((blog) => blog.title)
+
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(titles).toContain(newBlog.title)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
