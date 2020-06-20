@@ -98,6 +98,26 @@ test('making a HTTP POST request to /api/blogs successfully creates a new blog p
     expect(titles).toContain(newBlog.title)
 })
 
+test('if likes is missing, it defaults to 0', async () => {
+    const newBlogMissingLikes = {
+        title: "New blog post",
+        author: "Barack Obama",
+        url: "http://test.com"
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlogMissingLikes)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const sentBlog = response.body.filter((blog) => blog.title === newBlogMissingLikes.title)[0]
+    console.log(sentBlog)
+
+    expect(sentBlog.likes).toEqual(0)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
