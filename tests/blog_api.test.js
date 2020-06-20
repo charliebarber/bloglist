@@ -112,10 +112,21 @@ test('if likes is missing, it defaults to 0', async () => {
         .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
-    const sentBlog = response.body.filter((blog) => blog.title === newBlogMissingLikes.title)[0]
-    console.log(sentBlog)
+    const sentBlog = response.body.filter((blog) => blog.title === newBlogMissingLikes.title)[0]    
 
     expect(sentBlog.likes).toEqual(0)
+})
+
+test('if title and url are missing, the backend responds with 400 bad request', async () => {
+    const newBlogMissingTitleAndURL = {
+        author: "Barack Obama",
+        likes: 5
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlogMissingTitleAndURL)
+        .expect(400)
 })
 
 afterAll(() => {
