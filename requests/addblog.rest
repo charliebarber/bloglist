@@ -1,6 +1,11 @@
-POST http://localhost:3003/api/blogs
+POST http://localhost:3003/api/blogs/
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QyMTIzIiwiaWQiOiI1ZWY5ZTVmNTdiMGQ5ZTM0N2ZkMzJhYjUiLCJpYXQiOjE1OTM0MzcwNjJ9.l0z58QH2QJmTj5qXoM9ndQnftphLriibiEtKTY2f7eo
 
 {
-    "title": "Test"
+    "title": "Does it work 3",
+    "author": "Darren K.",
+    "url":
+      "http://www.test.com",
+    "likes": 5
 }

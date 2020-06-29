@@ -59,11 +59,13 @@ const initialBlogs = [
   },
 ];
 
+const token = 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjVlZjlmMThjZjI5YTkwMzc4NjAzNThkZiIsImlhdCI6MTU5MzQ0MDI1Nn0.yLsCmicjexgpKdTAvIRxjebHNb861UGTEQYpQ1f9WYg'
+
 beforeEach(async() => {
     await Blog.deleteMany({})
 
     const blogObjects = initialBlogs.map(blog => new Blog(blog))
-    const promiseArray = blogObjects.map(note => note.save())
+    const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
 })
 
@@ -85,8 +87,10 @@ test('making a HTTP POST request to /api/blogs successfully creates a new blog p
         likes: 5
     }
 
+
     await api
         .post('/api/blogs')
+        .set('Authorization', token)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -107,6 +111,7 @@ test('if likes is missing, it defaults to 0', async () => {
 
     await api
         .post('/api/blogs')
+        .set('Authorization', token)
         .send(newBlogMissingLikes)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -125,6 +130,7 @@ test('if title and url are missing, the backend responds with 400 bad request', 
 
     await api
         .post('/api/blogs')
+        .set('Authorization', token)
         .send(newBlogMissingTitleAndURL)
         .expect(400)
 })
